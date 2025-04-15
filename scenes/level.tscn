@@ -1,0 +1,764 @@
+[gd_scene load_steps=14 format=3 uid="uid://b3ccax4o615ss"]
+
+[ext_resource type="Script" path="res://scripts/radar_line.gd" id="1_51a3o"]
+[ext_resource type="Texture2D" uid="uid://bah4o5g4nkdxp" path="res://assets/Planets/planet00.png" id="1_aq7t7"]
+[ext_resource type="Script" path="res://scripts/x_grid.gd" id="1_jmqif"]
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_l7y0r"]
+[ext_resource type="Script" path="res://scripts/y_grid.gd" id="2_s3ote"]
+[ext_resource type="PackedScene" uid="uid://dcs76vhuu5u7f" path="res://scenes/asteroid.tscn" id="3_ehg5k"]
+[ext_resource type="Script" path="res://scripts/asteroids_mngr.gd" id="3_vjywh"]
+[ext_resource type="Script" path="res://scripts/asteroid_counter.gd" id="4_bvw3o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7dbqq"]
+size = Vector2(2, 800)
+
+[sub_resource type="Animation" id="Animation_55o4m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_qb4o6"]
+resource_name = "radar"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1m4r3"]
+_data = {
+"RESET": SubResource("Animation_55o4m"),
+"radar": SubResource("Animation_qb4o6")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f4hwj"]
+
+[node name="Level" type="ColorRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_l7y0r")
+
+[node name="XGrid" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 36
+alignment = 1
+script = ExtResource("1_jmqif")
+
+[node name="XGrid1" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid1"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="XGrid2" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid2"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "1"
+
+[node name="XGrid3" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid3"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "2"
+
+[node name="XGrid4" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid4"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "3"
+
+[node name="XGrid5" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid5"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "4"
+
+[node name="XGrid6" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid6"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "5"
+
+[node name="XGrid7" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid7"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "6"
+
+[node name="XGrid8" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid8"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "7"
+
+[node name="XGrid9" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid9"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "8"
+
+[node name="XGrid10" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid10"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "9"
+
+[node name="XGrid11" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid11"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "10"
+
+[node name="XGrid12" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid12"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "11"
+
+[node name="XGrid13" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid13"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "12"
+
+[node name="XGrid14" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid14"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "13"
+
+[node name="XGrid15" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid15"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "14"
+
+[node name="XGrid16" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid16"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "15"
+
+[node name="XGrid17" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid17"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "16"
+
+[node name="XGrid18" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid18"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "17"
+
+[node name="XGrid19" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid19"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "18"
+
+[node name="XGrid20" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid20"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "19"
+
+[node name="XGrid21" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid21"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "20"
+
+[node name="XGrid22" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid22"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "21"
+
+[node name="XGrid23" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid23"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "22"
+
+[node name="XGrid24" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid24"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "23"
+
+[node name="XGrid25" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid25"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "24"
+
+[node name="XGrid26" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid26"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "25"
+
+[node name="XGrid27" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid27"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "26"
+
+[node name="XGrid28" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid28"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "27"
+
+[node name="XGrid29" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid29"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "28"
+
+[node name="XGrid30" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid30"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "29"
+
+[node name="XGrid31" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid31"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+text = "30"
+
+[node name="XGrid32" type="ColorRect" parent="XGrid"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="XNumbering" type="Label" parent="XGrid/XGrid32"]
+layout_mode = 0
+offset_right = 10.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 14
+
+[node name="YGrid" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 36
+script = ExtResource("2_s3ote")
+
+[node name="YGrid1" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+
+[node name="YGrid2" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid2"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "1"
+
+[node name="YGrid3" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid3"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "2"
+
+[node name="YGrid4" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid4"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "3"
+
+[node name="YGrid5" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid5"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "4"
+
+[node name="YGrid6" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid6"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "5"
+
+[node name="YGrid7" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid7"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "6"
+
+[node name="YGrid8" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid8"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "7"
+
+[node name="YGrid9" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid9"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "8"
+
+[node name="YGrid10" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid10"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "9"
+
+[node name="YGrid11" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid11"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "10"
+
+[node name="YGrid12" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid12"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "11"
+
+[node name="YGrid13" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid13"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "12"
+
+[node name="YGrid14" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid14"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "13"
+
+[node name="YGrid15" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid15"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "14"
+
+[node name="YGrid16" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid16"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "15"
+
+[node name="YGrid17" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="YNumbering" type="Label" parent="YGrid/YGrid17"]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 14
+text = "16"
+
+[node name="YGrid18" type="ColorRect" parent="YGrid"]
+custom_minimum_size = Vector2(1152, 1)
+layout_mode = 2
+color = Color(1, 1, 1, 0.196078)
+
+[node name="BottomUI" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = -40.0
+offset_right = 74.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 50
+
+[node name="Shoot" type="Button" parent="BottomUI"]
+layout_mode = 2
+text = "Shoot (or press Enter)"
+
+[node name="CoordinateInput" type="LineEdit" parent="BottomUI"]
+layout_mode = 2
+placeholder_text = "X Y"
+alignment = 1
+
+[node name="Scan" type="Button" parent="BottomUI"]
+layout_mode = 2
+text = "Scan
+"
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="AsteroidCounter" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -89.5
+offset_top = 41.0
+offset_right = 89.5
+offset_bottom = 64.0
+grow_horizontal = 2
+text = "Asteroid Remaining: 0"
+script = ExtResource("4_bvw3o")
+
+[node name="Earth" type="Area2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Radar" type="Area2D" parent="Earth"]
+visible = false
+script = ExtResource("1_51a3o")
+
+[node name="RadarLine" type="ColorRect" parent="Earth/Radar"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 2.0
+offset_bottom = 800.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.521569, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Earth/Radar"]
+position = Vector2(1, 400)
+shape = SubResource("RectangleShape2D_7dbqq")
+
+[node name="RadarAnimation" type="AnimationPlayer" parent="Earth/Radar"]
+root_node = NodePath("../RadarLine")
+libraries = {
+"": SubResource("AnimationLibrary_1m4r3")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Earth"]
+scale = Vector2(0.08, 0.08)
+shape = SubResource("CircleShape2D_f4hwj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Earth"]
+texture_filter = 1
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("1_aq7t7")
+
+[node name="Asteroids" type="Node2D" parent="." node_paths=PackedStringArray("input_field", "earth")]
+script = ExtResource("3_vjywh")
+input_field = NodePath("../BottomUI/CoordinateInput")
+earth = NodePath("../Earth")
+asteroid_scene = ExtResource("3_ehg5k")
+
+[connection signal="pressed" from="BottomUI/Shoot" to="Asteroids" method="_on_shoot_pressed"]
+[connection signal="text_changed" from="BottomUI/CoordinateInput" to="XGrid" method="_on_coordinate_input_text_changed"]
+[connection signal="text_changed" from="BottomUI/CoordinateInput" to="YGrid" method="_on_coordinate_input_text_changed"]
+[connection signal="text_submitted" from="BottomUI/CoordinateInput" to="XGrid" method="_on_coordinate_input_text_submitted"]
+[connection signal="text_submitted" from="BottomUI/CoordinateInput" to="YGrid" method="_on_coordinate_input_text_submitted"]
+[connection signal="text_submitted" from="BottomUI/CoordinateInput" to="Asteroids" method="_on_coordinate_input_text_submitted"]
+[connection signal="pressed" from="BottomUI/Scan" to="Earth/Radar" method="_on_scan_pressed"]
+[connection signal="area_entered" from="Earth/Radar" to="Asteroids" method="_on_radar_area_entered"]
