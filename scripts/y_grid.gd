@@ -1,5 +1,7 @@
 extends VBoxContainer
 
+@export var click: AudioStreamPlayer
+
 var y = 0
 
 func _on_coordinate_input_text_changed(new_text: String) -> void:
@@ -8,7 +10,8 @@ func _on_coordinate_input_text_changed(new_text: String) -> void:
 		y = 0
 	else:
 		y = int(parts[1])
-
+	if click:
+		click.play()
 	highlight(y)
 
 func highlight(number: int):

@@ -1,13 +1,20 @@
-[gd_scene load_steps=14 format=3 uid="uid://b3ccax4o615ss"]
+[gd_scene load_steps=21 format=3 uid="uid://b3ccax4o615ss"]
 
-[ext_resource type="Script" path="res://scripts/radar_line.gd" id="1_51a3o"]
+[ext_resource type="Script" uid="uid://x7518cvts6aq" path="res://scripts/radar_line.gd" id="1_51a3o"]
 [ext_resource type="Texture2D" uid="uid://bah4o5g4nkdxp" path="res://assets/Planets/planet00.png" id="1_aq7t7"]
-[ext_resource type="Script" path="res://scripts/x_grid.gd" id="1_jmqif"]
-[ext_resource type="Script" path="res://scripts/level.gd" id="1_l7y0r"]
-[ext_resource type="Script" path="res://scripts/y_grid.gd" id="2_s3ote"]
+[ext_resource type="Script" uid="uid://yfdewvckgapp" path="res://scripts/x_grid.gd" id="1_jmqif"]
+[ext_resource type="Script" uid="uid://c3b23yb22pwnn" path="res://scripts/level.gd" id="1_l7y0r"]
+[ext_resource type="Script" uid="uid://duv2qaiiombwv" path="res://scripts/y_grid.gd" id="2_s3ote"]
 [ext_resource type="PackedScene" uid="uid://dcs76vhuu5u7f" path="res://scenes/asteroid.tscn" id="3_ehg5k"]
-[ext_resource type="Script" path="res://scripts/asteroids_mngr.gd" id="3_vjywh"]
-[ext_resource type="Script" path="res://scripts/asteroid_counter.gd" id="4_bvw3o"]
+[ext_resource type="Script" uid="uid://c76e3hdqcghjs" path="res://scripts/asteroids_mngr.gd" id="3_vjywh"]
+[ext_resource type="Script" uid="uid://dp4x2gth47r5s" path="res://scripts/asteroid_counter.gd" id="4_bvw3o"]
+[ext_resource type="AudioStream" uid="uid://dvkqbfsjef07p" path="res://assets/Sounds/space-ambient.mp3" id="9_8c41q"]
+[ext_resource type="AudioStream" uid="uid://b5wwdi2bpljsd" path="res://assets/Sounds/ping-notify.wav" id="10_olg7q"]
+[ext_resource type="AudioStream" uid="uid://cnnir1d0wohdp" path="res://assets/Sounds/radar-ping.mp3" id="11_t1rx8"]
+[ext_resource type="AudioStream" uid="uid://b5ed1nnmj237u" path="res://assets/Sounds/click.mp3" id="12_8iemx"]
+[ext_resource type="AudioStream" uid="uid://cyb5de1xf0fpg" path="res://assets/Sounds/shoot.wav" id="13_64w2a"]
+[ext_resource type="AudioStream" uid="uid://daydrt83j4h6o" path="res://assets/Sounds/hit.mp3" id="14_wc255"]
+[ext_resource type="AudioStream" uid="uid://xsnyax6t5nk6" path="res://assets/Sounds/miss.mp3" id="15_arp2o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7dbqq"]
 size = Vector2(2, 800)
@@ -46,8 +53,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1m4r3"]
 _data = {
-"RESET": SubResource("Animation_55o4m"),
-"radar": SubResource("Animation_qb4o6")
+&"RESET": SubResource("Animation_55o4m"),
+&"radar": SubResource("Animation_qb4o6")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f4hwj"]
@@ -61,7 +68,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_l7y0r")
 
-[node name="XGrid" type="HBoxContainer" parent="."]
+[node name="XGrid" type="HBoxContainer" parent="." node_paths=PackedStringArray("click")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -73,6 +80,7 @@ grow_vertical = 2
 theme_override_constants/separation = 36
 alignment = 1
 script = ExtResource("1_jmqif")
+click = NodePath("../Sounds/ClickSound")
 
 [node name="XGrid1" type="ColorRect" parent="XGrid"]
 custom_minimum_size = Vector2(1, 0)
@@ -456,15 +464,18 @@ offset_right = 10.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 14
 
-[node name="YGrid" type="VBoxContainer" parent="."]
+[node name="YGrid" type="VBoxContainer" parent="." node_paths=PackedStringArray("click")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 36
 script = ExtResource("2_s3ote")
+click = NodePath("../Sounds/ClickSound")
 
 [node name="YGrid1" type="ColorRect" parent="YGrid"]
 custom_minimum_size = Vector2(1152, 1)
@@ -691,9 +702,14 @@ placeholder_text = "X Y"
 alignment = 1
 
 [node name="Scan" type="Button" parent="BottomUI"]
+visible = false
 layout_mode = 2
 text = "Scan
 "
+
+[node name="Label" type="Label" parent="BottomUI"]
+layout_mode = 2
+text = "Press Enter to focus on input field again"
 
 [node name="Node2D" type="Node2D" parent="."]
 
@@ -736,7 +752,7 @@ shape = SubResource("RectangleShape2D_7dbqq")
 [node name="RadarAnimation" type="AnimationPlayer" parent="Earth/Radar"]
 root_node = NodePath("../RadarLine")
 libraries = {
-"": SubResource("AnimationLibrary_1m4r3")
+&"": SubResource("AnimationLibrary_1m4r3")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Earth"]
@@ -748,11 +764,43 @@ texture_filter = 1
 scale = Vector2(0.08, 0.08)
 texture = ExtResource("1_aq7t7")
 
-[node name="Asteroids" type="Node2D" parent="." node_paths=PackedStringArray("input_field", "earth")]
+[node name="Asteroids" type="Node2D" parent="." node_paths=PackedStringArray("input_field", "earth", "radar_sfx", "ping_sfx", "shoot_sfx", "hit_sfx", "miss_sfx")]
 script = ExtResource("3_vjywh")
 input_field = NodePath("../BottomUI/CoordinateInput")
 earth = NodePath("../Earth")
 asteroid_scene = ExtResource("3_ehg5k")
+radar_sfx = NodePath("../Sounds/RadarPing")
+ping_sfx = NodePath("../Sounds/AsteroidPing")
+shoot_sfx = NodePath("../Sounds/Shoot")
+hit_sfx = NodePath("../Sounds/Hit")
+miss_sfx = NodePath("../Sounds/Miss")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="BGM" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("9_8c41q")
+autoplay = true
+
+[node name="RadarPing" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("10_olg7q")
+
+[node name="AsteroidPing" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("11_t1rx8")
+volume_db = -5.0
+pitch_scale = 2.5
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("12_8iemx")
+
+[node name="Shoot" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("13_64w2a")
+volume_db = -5.0
+
+[node name="Hit" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("14_wc255")
+
+[node name="Miss" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("15_arp2o")
 
 [connection signal="pressed" from="BottomUI/Shoot" to="Asteroids" method="_on_shoot_pressed"]
 [connection signal="text_changed" from="BottomUI/CoordinateInput" to="XGrid" method="_on_coordinate_input_text_changed"]

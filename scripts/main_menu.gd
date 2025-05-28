@@ -1,11 +1,11 @@
 extends Control
 
-@export var level: PackedScene
 @onready var credit_screen: ColorRect = $CreditScreen
+const LEVEL = preload("res://scenes/level.tscn")
 
 func _on_play_pressed() -> void:
-	if level:
-		get_tree().change_scene_to_packed(level)
+	if LEVEL:
+		get_tree().change_scene_to_packed(LEVEL)
 	else:
 		print("❌ No level scene assigned.")
 

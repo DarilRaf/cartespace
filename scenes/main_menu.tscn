@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dtvmrv6i7wp0a"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_c5xbx"]
-[ext_resource type="PackedScene" uid="uid://b3ccax4o615ss" path="res://scenes/level.tscn" id="2_f8o80"]
+[ext_resource type="Script" uid="uid://t6b42g4hu7u4" path="res://scripts/main_menu.gd" id="1_c5xbx"]
+[ext_resource type="AudioStream" uid="uid://basxqkrqrx0ki" path="res://assets/Sounds/space-bgm.mp3" id="3_bqqt6"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,7 +11,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_c5xbx")
-level = ExtResource("2_f8o80")
 
 [node name="MainScreen" type="ColorRect" parent="."]
 layout_mode = 1
@@ -90,7 +89,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 31
 text = "Kenney Assets - Particle Pack (2D)
-Kenney Assets - Planets (2D)"
+Kenney Assets - Planets (2D)
+\"Energy Pulse\" by SilverIllusionist
+https://freesound.org/people/SilverIllusionist/sounds/673531/
+Other SFX from Pixabay and Freesound.org"
 
 [node name="Back" type="Button" parent="CreditScreen"]
 layout_mode = 1
@@ -107,6 +109,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 36
 text = "Back"
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_bqqt6")
+autoplay = true
 
 [connection signal="pressed" from="MainScreen/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MainScreen/VBoxContainer/Credit" to="." method="_on_credit_pressed"]

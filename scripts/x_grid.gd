@@ -1,5 +1,7 @@
 extends HBoxContainer
 
+@export var click: AudioStreamPlayer
+
 var x = 0
 
 func _on_coordinate_input_text_changed(new_text: String) -> void:
@@ -9,8 +11,9 @@ func _on_coordinate_input_text_changed(new_text: String) -> void:
 			var x = int(parts[0])
 		else:
 			return  # Ignore invalid input
-
 	x = int(parts[0])  # We're only highlighting X here
+	if click:
+		click.play()
 	highlight(x)
 
 func highlight(number: int):

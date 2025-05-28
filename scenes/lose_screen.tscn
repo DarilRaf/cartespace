@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://df3y1e72ikljp"]
+[gd_scene load_steps=2 format=3 uid="uid://df3y1e72ikljp"]
 
-[ext_resource type="Script" path="res://scripts/lose_screen.gd" id="1_p85rt"]
-[ext_resource type="PackedScene" uid="uid://b3ccax4o615ss" path="res://scenes/level.tscn" id="2_a544b"]
-[ext_resource type="PackedScene" uid="uid://dtvmrv6i7wp0a" path="res://scenes/main_menu.tscn" id="3_i0y2a"]
+[ext_resource type="Script" uid="uid://c1tq10jbn71uy" path="res://scripts/lose_screen.gd" id="1_p85rt"]
 
 [node name="LoseScreen" type="ColorRect"]
 anchors_preset = 15
@@ -12,8 +10,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0687983, 0.0687983, 0.0687983, 1)
 script = ExtResource("1_p85rt")
-level = ExtResource("2_a544b")
-main_menu = ExtResource("3_i0y2a")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

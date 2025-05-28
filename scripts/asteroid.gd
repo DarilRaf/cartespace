@@ -1,8 +1,13 @@
 extends Area2D
 
+@onready var shoot: Sprite2D = $Shoot
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
 @export var earth: Area2D
+
 var crashed: bool = false
 var moved: bool = false
+var visible_played: bool = false
 var lose_screen: PackedScene = preload("res://scenes/lose_screen.tscn")
 
 const TILE_SIZE := 37
@@ -23,6 +28,17 @@ func _ready() -> void:
 
 	set_grid_position(rand_x, rand_y)
 
+func _process(delta: float) -> void:
+	if crashed:
+		shoot.visible = true
+		await get_tree().create_timer(0.3).timeout
+		self.queue_free()
+	if !visible_played:
+		if self.visible:
+			visible_played = true
+			animation_player.play("visible")
+			await animation_player.animation_finished
+			animation_player.play("spin")
 
 func get_safe_random(min_val: int, max_val: int, exclude_start: int, exclude_end: int) -> int:
 	var valid_values := []
@@ -77,14 +93,16 @@ func move_toward_earth() -> void:
 					dir = "up"
 
 		if dir != "":
-			grid_move(dir)
+			var new_pos = global_position + DIRECTIONS[dir] * TILE_SIZE
+			var tween = create_tween()
+			tween.tween_property(self, "global_position", new_pos, 0.3).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			await tween.finished
 			
 		await get_tree().create_timer(1.0).timeout
 		moved = false
 		
 		# Check if we hit Earth
 		if global_position.distance_to(earth.global_position) < TILE_SIZE:
-			crashed = true
 			print("🌍 Impact! Asteroid hit Earth.")
 			get_tree().change_scene_to_packed(lose_screen)
 		
